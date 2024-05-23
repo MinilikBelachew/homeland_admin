@@ -39,6 +39,7 @@ const RideRequestsPage = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [selectedRide, setSelectedRide] = useState<RideRequest | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRideRequests = async () => {
@@ -46,7 +47,7 @@ const RideRequestsPage = () => {
       try {
         const snapshot = await get(rideRequestsRef);
         if (snapshot.exists()) {
-          const rideRequestsData:            RideRequest[] = Object.entries(
+          const rideRequestsData: RideRequest[] = Object.entries(
             snapshot.val()
           ).map(([id, rideRequestData]) => ({
             id,
@@ -58,6 +59,7 @@ const RideRequestsPage = () => {
         }
       } catch (error) {
         console.error("Error fetching ride requests:", error);
+        setError("Failed to fetch ride requests.");
       } finally {
         setLoading(false);
       }
@@ -78,6 +80,10 @@ const RideRequestsPage = () => {
 
   if (loading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="flex justify-center items-center h-screen">{error}</div>;
   }
 
   return (
