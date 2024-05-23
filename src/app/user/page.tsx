@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { database } from '../methods/firbase_config'; // Adjust the import path as needed
 import { useEffect, useState } from 'react';
@@ -30,7 +30,10 @@ const UserPage = () => {
       try {
         const snapshot = await get(usersRef);
         if (snapshot.exists()) {
-          const usersData: User[] = Object.entries(snapshot.val()).map(([id, user]) => ({ id, ...user }));
+          const usersData: User[] = Object.entries(snapshot.val()).map(([id, user]) => {
+            const userData = user as Omit<User, 'id'>; // Omit 'id' from the user data
+            return { id, ...userData };
+          });
           setUsers(usersData);
         } else {
           console.log('No data available');
@@ -132,7 +135,7 @@ const UserPage = () => {
                   </td>
                   <td className="py-2 px-4 flex space-x-2">
                     <button onClick={() => handleEditOpen(user)} className="bg-blue-500 text-white px-2 py-1 rounded">Edit</button>
-                    <button onClick={() => handleDelete(user.id)} className="bg-red text-white px-2 py-1 rounded">Delete</button>
+                    <button onClick={() => handleDelete(user.id)} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
                   </td>
                 </tr>
               ))}
@@ -150,7 +153,7 @@ const UserPage = () => {
               <input className="border p-2 w-full mb-4 dark:bg-black dark:text-white" type="text" name="address" value={editUser.address} onChange={handleChange} placeholder="Address" />
               <div className="flex justify-between">
                 <button onClick={handleEditSave} className="bg-green-500 text-white px-4 py-2 rounded">Save</button>
-                <button onClick={handleEditClose} className="bg-red text-white px-4 py-2 rounded">Cancel</button>
+                <button onClick={handleEditClose} className="bg-red-500 text-white px-4 py-2 rounded">Cancel</button>
               </div>
             </div>
           </div>
@@ -162,7 +165,7 @@ const UserPage = () => {
               <h3 className="text-lg font-bold mb-4">Are you sure you want to delete this user?</h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">This action cannot be undone.</p>
               <div className="flex justify-between">
-                <button onClick={handleConfirmDelete} className="bg-red text-white px-4 py-2 rounded">Delete</button>
+                <button onClick={handleConfirmDelete} className="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
                 <button onClick={handleCancelDelete} className=" bg-green-500 text-white px-4 py-2 rounded">Cancel</button>
               </div>
             </div>
