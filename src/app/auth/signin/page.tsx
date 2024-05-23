@@ -1,6 +1,3 @@
-
-
-
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
@@ -112,7 +109,7 @@ const Login: React.FC = () => {
                 href="/auth/signup"
                 className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
               >
-                Don't have an account? Sign up
+                Don&apos;t have an account? Sign up
               </Link>
             </div>
           </div>
@@ -123,4 +120,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

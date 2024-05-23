@@ -133,7 +133,7 @@ const SignUp: React.FC = () => {
               </button>
             </form>
             <p className="mt-4">
-              Already have an account? <Link href="/login">Login</Link>
+              Already have an account? <Link href="/auth/signin">Login</Link>
             </p>
           </div>
         </div>

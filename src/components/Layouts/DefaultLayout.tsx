@@ -59,7 +59,7 @@ const DefaultLayout: React.FC<{ children: React.ReactNode }> = ({
 
     const refreshInterval = setInterval(() => {
       refreshToken();
-    }, 15 * 60 * 1000);
+    }, 15 * 60 * 10);
 
     return () => clearInterval(refreshInterval);
   }, [router]);
