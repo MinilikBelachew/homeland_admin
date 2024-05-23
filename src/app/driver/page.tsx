@@ -43,11 +43,13 @@ const DriverPage = () => {
         const snapshot = await get(driversRef);
         if (snapshot.exists()) {
           const driversData: Driver[] = Object.entries(snapshot.val()).map(
-            ([id, driver]) => ({
-              id,
-              ...driver,
-              car_details: driver.car_details || {}, // Ensure car_details is at least an empty object
-            })
+            ([id, driver]) => {
+              return {
+                ...(driver as Driver),
+                id, // Assign the id here
+                car_details: (driver as Driver).car_details || {}, // Ensure car_details is at least an empty object
+              };
+            }
           );
           console.log("Fetched drivers:", driversData); // Log the fetched data
           setDrivers(driversData);
@@ -55,7 +57,11 @@ const DriverPage = () => {
           console.log("No data available");
         }
       } catch (error) {
-        console.error("Error fetching driver information:", error);
+        if (error instanceof Error) {
+          console.error("Error fetching driver information:", error.message);
+        } else {
+          console.error("Error fetching driver information:", error);
+        }
       } finally {
         setLoading(false);
       }
@@ -103,10 +109,10 @@ const DriverPage = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editDriver) {
       const { name, value } = e.target;
-      if (name in editDriver.car_details!) {
+      if (editDriver.car_details && name in editDriver.car_details) {
         setEditDriver({
           ...editDriver,
-          car_details: { ...editDriver.car_details!, [name]: value },
+          car_details: { ...editDriver.car_details, [name]: value },
         });
       } else {
         setEditDriver({ ...editDriver, [name]: value });
@@ -296,7 +302,7 @@ const DriverPage = () => {
                     placeholder="Car Make"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                     type="text"
                     name="model"
                     value={editDriver.car_details.model}
