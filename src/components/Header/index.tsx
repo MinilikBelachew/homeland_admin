@@ -64,6 +64,7 @@ const Header = (props: {
               alt="Logo"
             />
           </Link>
+       
         </div>
 
         <div className="hidden sm:block">

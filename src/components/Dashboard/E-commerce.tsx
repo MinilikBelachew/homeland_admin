@@ -8,9 +8,16 @@ import TableOne from "../Tables/TableOne";
 import CardDataStats from "../CardDataStats";
 import MapOne from "../Maps/MapOne";
 import { fetchData } from "../../app/methods/data_fetcher";
+interface Stats {
+  driversCount: number;
+  usersCount: number;
+  carOwnersCount: number;
+  rideRequestsCount: number;
+  availableDriversCount: number;
+}
 
 const ECommerce: React.FC = () => {
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<Stats>({
     driversCount: 0,
     usersCount: 0,
     carOwnersCount: 0,
@@ -20,7 +27,8 @@ const ECommerce: React.FC = () => {
 
   useEffect(() => {
     const getStats = async () => {
-      const data = await fetchData();
+      // Use type assertion to explicitly tell TypeScript the shape of the returned data
+      const data = await fetchData() as Stats;
       setStats(data);
     };
 
