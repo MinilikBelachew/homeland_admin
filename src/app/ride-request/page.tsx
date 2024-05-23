@@ -1,7 +1,8 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
-import { database } from "../methods/firbase_config";
+import { database } from "@/app/methods/firbase_config";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import "tailwindcss/tailwind.css";
 
@@ -43,6 +44,7 @@ const RideRequestsPage = () => {
   useEffect(() => {
     const fetchRideRequests = async () => {
       const rideRequestsRef = ref(database, "Ride Request");
+
       try {
         const snapshot = await get(rideRequestsRef);
         if (snapshot.exists()) {
