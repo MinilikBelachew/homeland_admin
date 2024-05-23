@@ -116,220 +116,253 @@ const DriverPage = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-32 w-32"></div>
+      <div className="flex justify-center items-center h-screen dark:bg-gray-900">
+        <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 dark:border-gray-700 h-32 w-32"></div>
       </div>
     );
   }
 
   return (
     <DefaultLayout>
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Driver Information</h1>
-      <div className="overflow-x-auto rounded-lg shadow-md">
-        <table className="min-w-full w-full bg-white table-auto">
-          <thead>
-            <tr className="bg-gray-100 text-left text-sm font-medium">
-              <th className="py-2 px-4 border-b"></th>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Address</th>
-              <th className="py-2 px-4 border-b">Email</th>
-              <th className="py-2 px-4 border-b">Phone Number</th>
-              <th className="py-2 px-4 border-b">Car Details</th>
-              <th className="py-2 px-4 border-b">Earnings</th>
-              <th className="py-2 px-4 border-b">Front ID Image</th>
-              <th className="py-2 px-4 border-b">Back ID Image</th>
-              <th className="py-2 px-4 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {drivers.map((driver, index) => (
-              <tr key={driver.id} className="border-b hover:bg-gray-100">
-                <td className="py-2 px-4 whitespace-nowrap">{index + 1}</td>{" "}
-                {/* Added client-side numbering */}
-                <td className="py-2 px-4">{driver.name}</td>
-                <td className="py-2 px-4">{driver.address}</td>
-                <td className="py-2 px-4">{driver.email}</td>
-                <td className="py-2 px-4">{driver.phoneNumber}</td>
-                <td className="py-2 px-4">
-                  {driver.car_details ? (
-                    <div>
-                      <p>{driver.car_details.bodyType}</p>
-                      {/* <p>{driver.car_details.make} {driver.car_details.model}</p> */}
-                      <p>
-                        {driver.car_details.plateNumber} (
-                        {driver.car_details.year})
-                      </p>
-                    </div>
-                  ) : (
-                    "No car details available"
-                  )}
-                </td>
-                <td className="py-2 px-4">{driver.earnings}</td>
-                <td className="py-2 px-4">
-                  <img
-                    className="w-16 h-16 object-cover"
-                    src={driver.front_id_img}
-                    alt="Front ID"
-                  />
-                </td>
-                <td className="py-2 px-4">
-                  <img
-                    className="w-16 h-16 object-cover"
-                    src={driver.back_id_img}
-                    alt="Back ID"
-                  />
-                </td>
-                <td className="py-2 px-4 flex space-x-2">
-                  <button
-                    onClick={() => handleEditOpen(driver)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => setDeleteDriver(driver)}
-                    className="bg-red text-white px-2 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
+      <div className="container mx-auto p-4 dark:bg-gray-900 dark:text-white">
+        <h1 className="text-3xl font-bold mb-4">Driver Information</h1>
+        <div className="overflow-x-auto rounded-lg shadow-md">
+          <table className="min-w-full w-full bg-white dark:bg-black table-auto">
+            <thead>
+              <tr className="bg-gray-100 dark:bg-gray-700 text-left text-sm font-medium dark:text-gray-200">
+                <th className="py-2 px-4 border-b dark:border-gray-600"></th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Name
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Address
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Email
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Phone Number
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Car Details
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Earnings
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Front ID Image
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Back ID Image
+                </th>
+                <th className="py-2 px-4 border-b dark:border-gray-600">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {drivers.map((driver, index) => (
+                <tr
+                  key={driver.id}
+                  className="border-b hover:bg-gray dark:hover:bg-slate-900 dark:border-gray"
+                >
+                  <td className="py-2 px-4 whitespace-nowrap dark:text-gray">
+                    {index + 1}
+                  </td>{" "}
+                  {/* Added client-side numbering */}
+                  <td className="py-2 px-4 dark:text-gray-200">
+                    {driver.name}
+                  </td>
+                  <td className="py-2 px-4 dark:text-gray-200">
+                    {driver.address}
+                  </td>
+                  <td className="py-2 px-4 dark:text-gray-200">
+                    {driver.email}
+                  </td>
+                  <td className="py-2 px-4 dark:text-gray-200">
+                    {driver.phoneNumber}
+                  </td>
+                  <td className="py-2 px-4 dark:text-gray-200">
+                    {driver.car_details ? (
+                      <div>
+                        <p>{driver.car_details.bodyType}</p>
+                        {/* <p>{driver.car_details.make} {driver.car_details.model}</p> */}
+                        <p>
+                          {driver.car_details.plateNumber} (
+                          {driver.car_details.year})
+                        </p>
+                      </div>
+                    ) : (
+                      "No car details available"
+                    )}
+                  </td>
+                  <td className="py-2 px-4 dark:text-gray">
+                    {driver.earnings}
+                  </td>
+                  <td className="py-2 px-4">
+                    <img
+                      className="w-16 h-16 object-cover"
+                      src={driver.front_id_img}
+                      alt="Front ID"
+                    />
+                  </td>
+                  <td className="py-2 px-4">
+                    <img
+                      className="w-16 h-16 object-cover"
+                      src={driver.back_id_img}
+                      alt="Back ID"
+                    />
+                  </td>
+                  <td className="py-2 px-4 flex space-x-2">
+                    <button
+                      onClick={() => handleEditOpen(driver)}
+                      className="bg-blue-500 text-white px-2 py-1 rounded"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => setDeleteDriver(driver)}
+                      className="bg-red text-white px-2 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {editDriver && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white dark:bg-gray dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
+              <h2 className="text-xl font-bold mb-4">Edit Driver</h2>
+              <input
+                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                type="text"
+                name="name"
+                value={editDriver.name}
+                onChange={handleChange}
+                placeholder="Name"
+              />
+              <input
+                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                type="text"
+                name="address"
+                value={editDriver.address}
+                onChange={handleChange}
+                placeholder="Address"
+              />
+              <input
+                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                type="email"
+                name="email"
+                value={editDriver.email}
+                onChange={handleChange}
+                placeholder="Email"
+              />
+              <input
+                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                type="text"
+                name="phoneNumber"
+                value={editDriver.phoneNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+              />
+              <input
+                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                type="text"
+                name="earnings"
+                value={editDriver.earnings}
+                onChange={handleChange}
+                placeholder="Earnings"
+              />
+              {editDriver.car_details && (
+                <>
+                  <input
+                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    type="text"
+                    name="bodyType"
+                    value={editDriver.car_details.bodyType}
+                    onChange={handleChange}
+                    placeholder="Car Body Type"
+                  />
+                  <input
+                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    type="text"
+                    name="make"
+                    value={editDriver.car_details.make}
+                    onChange={handleChange}
+                    placeholder="Car Make"
+                  />
+                  <input
+                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    type="text"
+                    name="model"
+                    value={editDriver.car_details.model}
+                    onChange={handleChange}
+                    placeholder="Car Model"
+                  />
+                  <input
+                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    type="text"
+                    name="plateNumber"
+                    value={editDriver.car_details.plateNumber}
+                    onChange={handleChange}
+                    placeholder="Car Plate Number"
+                  />
+                  <input
+                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    type="text"
+                    name="year"
+                    value={editDriver.car_details.year}
+                    onChange={handleChange}
+                    placeholder="Car Year"
+                  />
+                </>
+              )}
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={handleEditSave}
+                  className="bg-green-600 text-white px-4 py-2 rounded"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleEditClose}
+                  className="bg-blue-900 text-white px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {deleteDriver && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white dark:bg-gray-800 dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
+              <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+              <p>Are you sure you want to delete {deleteDriver.name}?</p>
+              <div className="flex justify-between mt-4">
+                <button
+                  onClick={handleDeleteConfirm}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={handleDeleteCancel}
+                  className="bg-blue-900 text-white px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-
-      {editDriver && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Edit Driver</h2>
-            <input
-              className="border p-2 w-full mb-4"
-              type="text"
-              name="name"
-              value={editDriver.name}
-              onChange={handleChange}
-              placeholder="Name"
-            />
-            <input
-              className="border p-2 w-full mb-4"
-              type="text"
-              name="address"
-              value={editDriver.address}
-              onChange={handleChange}
-              placeholder="Address"
-            />
-            <input
-              className="border p-2 w-full mb-4"
-              type="email"
-              name="email"
-              value={editDriver.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <input
-              className="border p-2 w-full mb-4"
-              type="text"
-              name="phoneNumber"
-              value={editDriver.phoneNumber}
-              onChange={handleChange}
-              placeholder="Phone Number"
-            />
-            <input
-              className="border p-2 w-full mb-4"
-              type="text"
-              name="earnings"
-              value={editDriver.earnings}
-              onChange={handleChange}
-              placeholder="Earnings"
-            />
-            {editDriver.car_details && (
-              <>
-                <input
-                  className="border p-2 w-full mb-4"
-                  type="text"
-                  name="bodyType"
-                  value={editDriver.car_details.bodyType}
-                  onChange={handleChange}
-                  placeholder="Car Body Type"
-                />
-                <input
-                  className="border p-2 w-full mb-4"
-                  type="text"
-                  name="make"
-                  value={editDriver.car_details.make}
-                  onChange={handleChange}
-                  placeholder="Car Make"
-                />
-                <input
-                  className="border p-2 w-full mb-4"
-                  type="text"
-                  name="model"
-                  value={editDriver.car_details.model}
-                  onChange={handleChange}
-                  placeholder="Car Model"
-                />
-                <input
-                  className="border p-2 w-full mb-4"
-                  type="text"
-                  name="plateNumber"
-                  value={editDriver.car_details.plateNumber}
-                  onChange={handleChange}
-                  placeholder="Car Plate Number"
-                />
-                <input
-                  className="border p-2 w-full mb-4"
-                  type="text"
-                  name="year"
-                  value={editDriver.car_details.year}
-                  onChange={handleChange}
-                  placeholder="Car Year"
-                />
-              </>
-            )}
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={handleEditSave}
-                className=" bg-green-600 text-white px-4 py-2 rounded"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleEditClose}
-                className=" bg-blue-900 text-white px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {deleteDriver && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
-            <p>Are you sure you want to delete {deleteDriver.name}?</p>
-            <div className="flex justify-between mt-4">
-              <button
-                onClick={handleDeleteConfirm}
-                className="bg-red text-white px-4 py-2 rounded"
-              >
-                Delete
-              </button>
-              <button
-                onClick={handleDeleteCancel}
-                className="bg-blue-900 text-white px-4 py-2 rounded"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-     </DefaultLayout>
+    </DefaultLayout>
   );
 };
 

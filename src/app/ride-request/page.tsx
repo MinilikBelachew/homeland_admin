@@ -46,7 +46,7 @@ const RideRequestsPage = () => {
       try {
         const snapshot = await get(rideRequestsRef);
         if (snapshot.exists()) {
-          const rideRequestsData: RideRequest[] = Object.entries(
+          const rideRequestsData:            RideRequest[] = Object.entries(
             snapshot.val()
           ).map(([id, rideRequestData]) => ({
             id,
@@ -82,12 +82,12 @@ const RideRequestsPage = () => {
 
   return (
     <DefaultLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 dark:bg-gray-900 dark:text-gray-100">
         <h2 className="text-3xl font-bold mb-8 text-center">Ride Requests</h2>
         <div className="overflow-x-auto rounded-lg shadow-md">
-          <table className="w-full min-w-full divide-y divide-gray-200">
+          <table className="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead>
-              <tr className="bg-gray-500 text-black">
+              <tr className="bg-gray-500 text-black dark:bg-black dark:text-gray">
                 <th className="py-3 px-6 text-left">ID</th>
                 <th className="py-3 px-6 text-left">Rider Name</th>
                 <th className="py-3 px-6 text-left">Driver Name</th>
@@ -101,7 +101,7 @@ const RideRequestsPage = () => {
             </thead>
             <tbody>
               {rideRequests.map((rideRequest, index) => (
-                <tr key={rideRequest.id} className="hover:bg-gray-100">
+                <tr key={rideRequest.id} className="hover:bg-gray-100 dark:hover:bg-gray-800">
                   <td className="py-4 px-6 text-left">{index + 1}</td>
                   <td className="py-4 px-6 text-left">{rideRequest.rider_name}</td>
                   <td className="py-4 px-6 text-left">{rideRequest.driver_name}</td>
@@ -112,7 +112,7 @@ const RideRequestsPage = () => {
                   <td className="py-4 px-6 text-left">
                     <span
                       className={`py-1 px-3 rounded-full text-black ${
-                        rideRequest.status === "ended" ? "bg-green-500" : "bg-red-500"
+                        rideRequest.status === "ended" ? "bg-green-500 dark:bg-green-600" : "bg-red-500 dark:bg-red-600"
                       }`}
                     >
                       {rideRequest.status}
@@ -134,7 +134,7 @@ const RideRequestsPage = () => {
 
         {showModal && selectedRide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg max-w-lg mx-auto p-6 relative">
+            <div className="bg-white dark:bg-gray-800 dark:text-gray-200 rounded-lg shadow-lg max-w-lg mx-auto p-6 relative">
               <h3 className="text-2xl font-bold mb-4">Ride Details</h3>
               <div className="space-y-2">
                 <p>
@@ -172,7 +172,7 @@ const RideRequestsPage = () => {
                 </p>
               </div>
               <button
-                className="absolute top-2 right-2 bg-gray-300 hover:bg-gray-400 text-gray-800 px-3 py-1 rounded"
+                className="absolute top-2 right-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 px-3 py-1 rounded"
                 onClick={closeModal}
               >
                 Close
