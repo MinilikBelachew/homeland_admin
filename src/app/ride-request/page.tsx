@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
 import { database } from "@/app/methods/firbase_config";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import "tailwindcss/tailwind.css";
 
 interface RideRequest {
   id: string;
