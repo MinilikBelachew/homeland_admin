@@ -21,7 +21,7 @@ interface Driver {
   address: string;
   back_id_img: string;
   front_id_img: string;
-  car_details?: CarDetails;
+  car_details?: CarDetails; // Making car_details optional
   earnings: string;
   email: string;
   phoneNumber: string;
@@ -44,10 +44,11 @@ const DriverPage = () => {
         if (snapshot.exists()) {
           const driversData: Driver[] = Object.entries(snapshot.val()).map(
             ([id, driver]) => {
+              const driverData = driver as Driver;
               return {
-                ...(driver as Driver),
+                ...driverData,
                 id, // Assign the id here
-                car_details: (driver as Driver).car_details || {}, // Ensure car_details is at least an empty object
+                car_details: driverData.car_details || undefined, // Ensure car_details is either CarDetails or undefined
               };
             }
           );
@@ -176,7 +177,7 @@ const DriverPage = () => {
                     {index + 1}
                   </td>{" "}
                   {/* Added client-side numbering */}
-                  <td className="py-2 px-4 dark:text-gray-200">
+                  <td className="py-2 px-4 dark                    text-gray-200">
                     {driver.name}
                   </td>
                   <td className="py-2 px-4 dark:text-gray-200">
@@ -192,7 +193,7 @@ const DriverPage = () => {
                     {driver.car_details ? (
                       <div>
                         <p>{driver.car_details.bodyType}</p>
-                        {/* <p>{driver.car_details.make} {driver.car_details.model}</p> */}
+                        <p>{driver.car_details.make} {driver.car_details.model}</p>
                         <p>
                           {driver.car_details.plateNumber} (
                           {driver.car_details.year})
@@ -228,7 +229,7 @@ const DriverPage = () => {
                     </button>
                     <button
                       onClick={() => setDeleteDriver(driver)}
-                      className="bg-red text-white px-2 py-1 rounded"
+                      className="bg-red-500 text-white px-2 py-1 rounded"
                     >
                       Delete
                     </button>
@@ -241,10 +242,10 @@ const DriverPage = () => {
 
         {editDriver && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white dark:bg-gray dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
+            <div className="bg-white dark:bg-gray-800 dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
               <h2 className="text-xl font-bold mb-4">Edit Driver</h2>
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                 type="text"
                 name="name"
                 value={editDriver.name}
@@ -252,7 +253,7 @@ const DriverPage = () => {
                 placeholder="Name"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                 type="text"
                 name="address"
                 value={editDriver.address}
@@ -260,7 +261,7 @@ const DriverPage = () => {
                 placeholder="Address"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                 type="email"
                 name="email"
                 value={editDriver.email}
@@ -268,7 +269,7 @@ const DriverPage = () => {
                 placeholder="Email"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                 type="text"
                 name="phoneNumber"
                 value={editDriver.phoneNumber}
@@ -276,7 +277,7 @@ const DriverPage = () => {
                 placeholder="Phone Number"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                 type="text"
                 name="earnings"
                 value={editDriver.earnings}
@@ -286,7 +287,7 @@ const DriverPage = () => {
               {editDriver.car_details && (
                 <>
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                     type="text"
                     name="bodyType"
                     value={editDriver.car_details.bodyType}
@@ -294,7 +295,7 @@ const DriverPage = () => {
                     placeholder="Car Body Type"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
                     type="text"
                     name="make"
                     value={editDriver.car_details.make}
@@ -373,3 +374,4 @@ const DriverPage = () => {
 };
 
 export default DriverPage;
+
