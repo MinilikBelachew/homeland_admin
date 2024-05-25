@@ -1,48 +1,47 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ref, onChildAdded } from "firebase/database";
+import { ref, onChildAdded, DataSnapshot } from "firebase/database";
 import { database } from "@/app/methods/firbase_config";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
 
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
+  const trigger = useRef<HTMLAnchorElement | null>(null);
+  const dropdown = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const clickHandler = ({ target }) => {
+    const clickHandler = (event: MouseEvent) => {
+      const target = event.target as Node;
       if (!dropdown.current) return;
-      if (
-        !dropdownOpen ||
-        dropdown.current.contains(target) ||
-        trigger.current.contains(target)
-      )
+      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current?.contains(target)) {
         return;
+      }
       setDropdownOpen(false);
     };
+
     document.addEventListener("click", clickHandler);
     return () => document.removeEventListener("click", clickHandler);
-  });
+  }, [dropdownOpen]);
 
   // close if the esc key is pressed
   useEffect(() => {
-    const keyHandler = ({ keyCode }: KeyboardEvent): void => {
-      if (!dropdownOpen || keyCode !== 27) return;
+    const keyHandler = (event: KeyboardEvent): void => {
+      if (!dropdownOpen || event.keyCode !== 27) return;
       setDropdownOpen(false);
     };
-    
+
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
-  });
+  }, [dropdownOpen]);
 
   useEffect(() => {
     const carOwnersRef = ref(database, "carOwners");
     const usersRef = ref(database, "users");
     const driversRef = ref(database, "drivers");
 
-    const handleNewNotification = (snapshot, type) => {
+    const handleNewNotification = (snapshot: DataSnapshot, type: string) => {
       const data = snapshot.val();
       setNotifications(prev => [
         ...prev,
@@ -117,23 +116,21 @@ const DropdownNotification = () => {
         </div>
 
         <ul className="flex h-auto flex-col overflow-y-auto">
-        {notifications.map((notification, index) => (
-  <li key={index}>
-    <Link
-      className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-      href={`/${notification.type.toLowerCase()}`} // Updated href attribute
-    >
-      <p className="text-sm">
-        <span className="text-black dark:text-white">
-          New {notification.type} Registered
-        </span>{" "}
-        {/* Add your notification message here */}
-      </p>
-      <p className="text-xs">{notification.timestamp}</p>
-    </Link>
-  </li>
-))}
-
+          {notifications.map((notification, index) => (
+            <li key={index}>
+              <Link
+                className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+                href={`/${notification.type.toLowerCase()}`}
+              >
+                <p className="text-sm">                  <span className="text-black dark:text-white">
+                    New {notification.type} Registered
+                  </span>{" "}
+                  {/* Add your notification message here */}
+                </p>
+                <p className="text-xs">{notification.timestamp}</p>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
     </li>
