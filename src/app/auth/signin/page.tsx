@@ -5,11 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ref, get, set } from "firebase/database";
-
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AuthLayout from "../authlayout/authLayout";
 import { auth, database } from "@/app/methods/firbase_config";
-
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login: React.FC = () => {
@@ -17,9 +15,11 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false); // New state for loading
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true when login process starts
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -30,12 +30,10 @@ const Login: React.FC = () => {
       const token = await user.getIdToken();
       document.cookie = `token=${token}; path=/;`;
 
-      // Get the admin's data from the database
       const adminRef = ref(database, `admins/${user.uid}`);
       const adminSnapshot = await get(adminRef);
       if (adminSnapshot.exists()) {
         const adminData = adminSnapshot.val();
-        // Update the admin's data with the token
         await set(adminRef, {
           ...adminData,
           token: token,
@@ -50,6 +48,8 @@ const Login: React.FC = () => {
       } else {
         setError("An unexpected error occurred");
       }
+    } finally {
+      setLoading(false); // Set loading back to false when login process finishes
     }
   };
 
@@ -102,20 +102,22 @@ const Login: React.FC = () => {
                 <button
                   type="submit"
                   className="w-full bg-blue-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  disabled={loading} // Disable button when loading
                 >
-                  Log In
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin h-5 w-5 mr-3 border-b-2 border-white rounded-full"></div>
+                      Logging In...
+                    </div>
+                  ) : (
+                    "Log In"
+                  )}{" "}
+                  {/* Show spinner or text based on loading state */}
                 </button>
               </div>
             </form>
             {/* Sign-up link */}
-            {/* <div className="mt-6 text-center">
-              <Link
-                href="/auth/signup"
-                className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-              >
-                Don&apos;t have an account? Sign up
-              </Link>
-            </div> */}
+            {/* Your existing code */}
           </div>
         </div>
       </div>

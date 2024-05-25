@@ -2,9 +2,18 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from 'react';
 
+interface CarDetails {
+  bodyType: string;
+  color: string;
+  make: string;
+  model: string;
+  plateNumber: string;
+  year: string;
+}
+
 interface SearchResult {
   id: string;
-  car_details?: string;
+  car_details?: CarDetails;
   created_at: string;
   driver_id: string;
   driver_name: string;
@@ -65,26 +74,31 @@ const SearchResultst = () => {
     localStorage.removeItem('searchResults');
   };
 
+  const goBack = () => {
+    router.back();
+  };
+
   if (filteredResults.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <p className="mb-4 text-lg font-semibold">No results found</p>
         <button
           className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-          onClick={() => router.back()}
+          onClick={goBack}
         >
           Go Back
         </button>
       </div>
     );
   }
+  
+  
 
   return (
     <div className="container mx-auto mt-8">
       <h1 className="mb-4 text-2xl font-semibold">Search Results</h1>
       <button
         onClick={clearResults}
-        className="mb-4 px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+        className="mb-4 px-4 py-2 text-white bg-red rounded hover:bg-red-600"
       >
         Clear Results
       </button>
@@ -97,20 +111,28 @@ const SearchResultst = () => {
             <p><strong>Status:</strong> {item.status}</p>
             <p><strong>Fares:</strong> {item.fares}</p>
             <p><strong>Package Description:</strong> {item.package_description}</p>
-            <p><strong>Car Details:</strong> {item.car_details}</p>
+            {item.car_details && (
+              <div>
+                <p><strong>Car Details:</strong></p>
+                <p><strong>Body Type:</strong> {item.car_details.bodyType}</p>
+                <p><strong>Color:</strong> {item.car_details.color}</p>
+                <p><strong>Make:</strong> {item.car_details.make}</p>
+                <p><strong>Model:</strong> {item.car_details.model}</p>
+                <p><strong>Plate Number:</strong> {item.car_details.plateNumber}</p>
+                <p><strong>Year:</strong> {item.car_details.year}</p>
+              </div>
+            )}
             <p><strong>Created At:</strong> {item.created_at}</p>
             <p><strong>Driver Phone:</strong> {item.driver_phone}</p>
             <p><strong>Dropoff Address:</strong> {item.dropoff_address}</p>
             <p><strong>Payment Method:</strong> {item.payment_method}</p>
             <p><strong>Pickup Address:</strong> {item.pickup_address}</p>
-            {/* Include user information if available */}
             {item.user && (
               <div>
                 <p><strong>User Name:</strong> {item.user.name}</p>
                 <p><strong>User Email:</strong> {item.user.email}</p>
                 <p><strong>User Phone:</strong> {item.user.phone}</p>
                 <p><strong>User Address:</strong> {item.user.address}</p>
-                {/* Add more user information as necessary */}
               </div>
             )}
           </div>
@@ -119,5 +141,7 @@ const SearchResultst = () => {
     </div>
   );
 };
+
+
 
 export default SearchResultst;
