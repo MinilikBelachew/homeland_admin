@@ -114,14 +114,14 @@ const Login: React.FC = () => {
               </div>
             </form>
             {/* Sign-up link */}
-            <div className="mt-6 text-center">
+            {/* <div className="mt-6 text-center">
               <Link
                 href="/auth/signup"
                 className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 Don&apos;t have an account? Sign up
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

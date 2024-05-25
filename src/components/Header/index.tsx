@@ -13,26 +13,26 @@ import { useRouter } from "next/navigation";
 interface DataItem {
   id: string;
   name: string;
-  fares:string
+  fares: string;
   // Add other fields as necessary
 }
+
 const Header = (props: {
-  
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
-
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]); // Specify the type of searchResults
+  const [searchResults, setSearchResults] = useState<DataItem[]>([]); // Specify the type of searchResults
   const router = useRouter();
-  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSearch = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     // Define the nodes to search
     const nodesToSearch = ["car_owners", "Ride Request", "drivers", "users"]; // Add more nodes as needed
 
     // Perform parallel queries to relevant nodes
-    const queryPromises = nodesToSearch.map(node => {
+    const queryPromises = nodesToSearch.map((node) => {
       const queryRef = ref(database, node);
       return get(queryRef);
     });
@@ -40,10 +40,10 @@ const Header = (props: {
     const snapshots = await Promise.all(queryPromises);
 
     // Extract data from snapshots
-    const searchData: any[] = snapshots.reduce((acc, snapshot) => { // Specify the type of searchData
+    const searchData: DataItem[] = snapshots.reduce((acc: DataItem[], snapshot) => {
       if (snapshot.exists()) {
-        const nodeData = snapshot.val();
-        Object.values(nodeData).forEach(item => {
+        const nodeData = snapshot.val() as Record<string, DataItem>;
+        Object.values(nodeData).forEach((item) => {
           acc.push(item);
         });
       }
@@ -51,15 +51,17 @@ const Header = (props: {
     }, []);
 
     // Filter data based on search query
-    const filteredResults = searchData.filter(item =>
-      Object.values(item).some(value =>
-        typeof value === "string" && value.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredResults = searchData.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
 
     setSearchResults(filteredResults);
     console.log(filteredResults);
-    localStorage.setItem('searchResults', JSON.stringify(filteredResults));
+    localStorage.setItem("searchResults", JSON.stringify(filteredResults));
     router.push("/search-results");
   };
 
@@ -118,7 +120,6 @@ const Header = (props: {
               alt="Logo"
             />
           </Link>
-       
         </div>
 
         <div className="hidden sm:block">
@@ -156,7 +157,6 @@ const Header = (props: {
                 className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
               />
             </div>
-            
           </form>
         </div>
 
