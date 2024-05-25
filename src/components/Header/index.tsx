@@ -112,11 +112,12 @@ const Header = (props: {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" href="/">
+          <Link className=" bg-slate-700 dark:bg-black block flex-shrink-0 lg:hidden rounded-lg" href="/">
             <Image
-              width={32}
-              height={32}
-              src={"/images/logo/logo-icon.svg"}
+              width={42}
+              height={42}
+              src={"/images/logo/home2.png"}
+            
               alt="Logo"
             />
           </Link>
