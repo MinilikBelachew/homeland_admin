@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import ChartOne from "../Charts/ChartOne";
 import ChartThree from "../Charts/ChartThree";
 import ChartTwo from "../Charts/ChartTwo";
-import ChatCard from "../Chat/ChatCard";
-import TableOne from "../Tables/TableOne";
+
+
 import CardDataStats from "../CardDataStats";
 import MapOne from "../Maps/MapOne";
 import { fetchData } from "../../app/methods/data_fetcher";
@@ -16,7 +16,7 @@ interface Stats {
   availableDriversCount: number;
 }
 
-const ECommerce: React.FC = () => {
+const Homeland: React.FC = () => {
   const [stats, setStats] = useState<Stats>({
     driversCount: 0,
     usersCount: 0,
@@ -149,4 +149,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default Homeland;
