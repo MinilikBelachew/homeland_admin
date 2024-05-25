@@ -229,7 +229,7 @@ const DriverPage = () => {
                     </button>
                     <button
                       onClick={() => setDeleteDriver(driver)}
-                      className="bg-red-500 text-white px-2 py-1 rounded"
+                      className="bg-red text-white px-2 py-1 rounded"
                     >
                       Delete
                     </button>
@@ -242,10 +242,10 @@ const DriverPage = () => {
 
         {editDriver && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white dark:bg-gray-800 dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
+            <div className="bg-white dark:bg-black dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
               <h2 className="text-xl font-bold mb-4">Edit Driver</h2>
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                 type="text"
                 name="name"
                 value={editDriver.name}
@@ -253,7 +253,7 @@ const DriverPage = () => {
                 placeholder="Name"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                 type="text"
                 name="address"
                 value={editDriver.address}
@@ -261,7 +261,7 @@ const DriverPage = () => {
                 placeholder="Address"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                 type="email"
                 name="email"
                 value={editDriver.email}
@@ -269,7 +269,7 @@ const DriverPage = () => {
                 placeholder="Email"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                 type="text"
                 name="phoneNumber"
                 value={editDriver.phoneNumber}
@@ -277,7 +277,7 @@ const DriverPage = () => {
                 placeholder="Phone Number"
               />
               <input
-                className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                 type="text"
                 name="earnings"
                 value={editDriver.earnings}
@@ -287,7 +287,7 @@ const DriverPage = () => {
               {editDriver.car_details && (
                 <>
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                     type="text"
                     name="bodyType"
                     value={editDriver.car_details.bodyType}
@@ -295,7 +295,7 @@ const DriverPage = () => {
                     placeholder="Car Body Type"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                     type="text"
                     name="make"
                     value={editDriver.car_details.make}
@@ -303,7 +303,7 @@ const DriverPage = () => {
                     placeholder="Car Make"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                     type="text"
                     name="model"
                     value={editDriver.car_details.model}
@@ -311,7 +311,7 @@ const DriverPage = () => {
                     placeholder="Car Model"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                     type="text"
                     name="plateNumber"
                     value={editDriver.car_details.plateNumber}
@@ -319,7 +319,7 @@ const DriverPage = () => {
                     placeholder="Car Plate Number"
                   />
                   <input
-                    className="border p-2 w-full mb-4 dark:bg-gray-700 dark:text-white"
+                    className="border p-2 w-full mb-4 dark:bg-black dark:text-white"
                     type="text"
                     name="year"
                     value={editDriver.car_details.year}
@@ -348,13 +348,13 @@ const DriverPage = () => {
 
         {deleteDriver && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white dark:bg-gray-800 dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
-              <h2 className="text-xl font-bold mb-4">Confirm Deletion</h2>
+            <div className="bg-white dark:bg-black dark:text-white p-4 rounded-lg shadow-lg max-w-md w-full">
+              <h2 className="text-xl font-bold mb-4 dark:text-white">Confirm Deletion</h2>
               <p>Are you sure you want to delete {deleteDriver.name}?</p>
               <div className="flex justify-between mt-4">
                 <button
                   onClick={handleDeleteConfirm}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  className="bg-red text-white px-4 py-2 rounded"
                 >
                   Delete
                 </button>

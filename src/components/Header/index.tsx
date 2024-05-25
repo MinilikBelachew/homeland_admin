@@ -5,10 +5,64 @@ import DropdownNotification from "./DropdownNotification";
 import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { ref, get } from "firebase/database";
+import { database } from "@/app/methods/firbase_config";
+import { useRouter } from "next/navigation";
+
+interface DataItem {
+  id: string;
+  name: string;
+  fares:string
+  // Add other fields as necessary
+}
 const Header = (props: {
+  
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]); // Specify the type of searchResults
+  const router = useRouter();
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    // Define the nodes to search
+    const nodesToSearch = ["car_owners", "Ride Request", "drivers", "users"]; // Add more nodes as needed
+
+    // Perform parallel queries to relevant nodes
+    const queryPromises = nodesToSearch.map(node => {
+      const queryRef = ref(database, node);
+      return get(queryRef);
+    });
+
+    const snapshots = await Promise.all(queryPromises);
+
+    // Extract data from snapshots
+    const searchData: any[] = snapshots.reduce((acc, snapshot) => { // Specify the type of searchData
+      if (snapshot.exists()) {
+        const nodeData = snapshot.val();
+        Object.values(nodeData).forEach(item => {
+          acc.push(item);
+        });
+      }
+      return acc;
+    }, []);
+
+    // Filter data based on search query
+    const filteredResults = searchData.filter(item =>
+      Object.values(item).some(value =>
+        typeof value === "string" && value.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+
+    setSearchResults(filteredResults);
+    console.log(filteredResults);
+    localStorage.setItem('searchResults', JSON.stringify(filteredResults));
+    router.push("/search-results");
+  };
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -68,7 +122,7 @@ const Header = (props: {
         </div>
 
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          <form onSubmit={handleSearch}>
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2">
                 <svg
@@ -96,10 +150,13 @@ const Header = (props: {
 
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Type to search..."
                 className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
               />
             </div>
+            
           </form>
         </div>
 
@@ -114,7 +171,7 @@ const Header = (props: {
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            {/* <DropdownMessage /> */}
             {/* <!-- Chat Notification Area --> */}
           </ul>
 

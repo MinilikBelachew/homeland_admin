@@ -4,6 +4,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,9 +24,11 @@ const app = initializeApp(firebaseConfig);
 // Get a reference to the database service
 const database = getDatabase(app);
 const auth = getAuth(app);
+const storage = getStorage(app); // Add this line
 
 
-export { database,auth };
+
+export { database,auth,storage  };
 
 
 

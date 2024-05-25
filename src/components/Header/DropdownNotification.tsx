@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { ref, onChildAdded } from "firebase/database";
+import { database } from "@/app/methods/firbase_config";
 
 const DropdownNotification = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notifying, setNotifying] = useState(true);
+  const [notifications, setNotifications] = useState([]);
 
-  const trigger = useRef<any>(null);
-  const dropdown = useRef<any>(null);
+  const trigger = useRef(null);
+  const dropdown = useRef(null);
 
   useEffect(() => {
-    const clickHandler = ({ target }: MouseEvent) => {
+    const clickHandler = ({ target }) => {
       if (!dropdown.current) return;
       if (
         !dropdownOpen ||
@@ -25,13 +28,41 @@ const DropdownNotification = () => {
 
   // close if the esc key is pressed
   useEffect(() => {
-    const keyHandler = ({ keyCode }: KeyboardEvent) => {
+    const keyHandler = ({ keyCode }: KeyboardEvent): void => {
       if (!dropdownOpen || keyCode !== 27) return;
       setDropdownOpen(false);
     };
+    
     document.addEventListener("keydown", keyHandler);
     return () => document.removeEventListener("keydown", keyHandler);
   });
+
+  useEffect(() => {
+    const carOwnersRef = ref(database, "carOwners");
+    const usersRef = ref(database, "users");
+    const driversRef = ref(database, "drivers");
+
+    const handleNewNotification = (snapshot, type) => {
+      const data = snapshot.val();
+      setNotifications(prev => [
+        ...prev,
+        {
+          type,
+          data,
+          timestamp: new Date().toISOString()
+        }
+      ]);
+      setNotifying(true);
+    };
+
+    onChildAdded(carOwnersRef, (snapshot) => handleNewNotification(snapshot, "Car Owner"));
+    onChildAdded(usersRef, (snapshot) => handleNewNotification(snapshot, "User"));
+    onChildAdded(driversRef, (snapshot) => handleNewNotification(snapshot, "Driver"));
+
+    return () => {
+      // Optionally, clean up listeners if needed
+    };
+  }, []);
 
   return (
     <li className="relative">
@@ -75,74 +106,34 @@ const DropdownNotification = () => {
           dropdownOpen === true ? "block" : "hidden"
         }`}
       >
-        <div className="px-4.5 py-3">
-          <h5 className="text-sm font-medium text-bodydark2">Notification</h5>
+        <div className="px-4.5 py-3 flex justify-between items-center">
+          <h5 className="text-sm font-medium text-bodydark2">Notifications</h5>
+          <button
+            onClick={() => setNotifications([])}
+            className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 focus:outline-none"
+          >
+            Clear All
+          </button>
         </div>
 
         <ul className="flex h-auto flex-col overflow-y-auto">
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  Edit your information in a swipe
-                </span>{" "}
-                Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim.
-              </p>
+        {notifications.map((notification, index) => (
+  <li key={index}>
+    <Link
+      className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+      href={`/${notification.type.toLowerCase()}`} // Updated href attribute
+    >
+      <p className="text-sm">
+        <span className="text-black dark:text-white">
+          New {notification.type} Registered
+        </span>{" "}
+        {/* Add your notification message here */}
+      </p>
+      <p className="text-xs">{notification.timestamp}</p>
+    </Link>
+  </li>
+))}
 
-              <p className="text-xs">12 May, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  It is a long established fact
-                </span>{" "}
-                that a reader will be distracted by the readable.
-              </p>
-
-              <p className="text-xs">24 Feb, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
-                </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
-              </p>
-
-              <p className="text-xs">04 Jan, 2025</p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
-              href="#"
-            >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
-                  There are many variations
-                </span>{" "}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
-              </p>
-
-              <p className="text-xs">01 Dec, 2024</p>
-            </Link>
-          </li>
         </ul>
       </div>
     </li>
@@ -150,3 +141,4 @@ const DropdownNotification = () => {
 };
 
 export default DropdownNotification;
+

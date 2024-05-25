@@ -154,7 +154,7 @@ const RideRequestsPage = () => {
 
         {showModal && selectedRide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white dark:bg-gray-800 dark:text-gray-200 rounded-lg shadow-lg max-w-lg mx-auto p-6 relative">
+            <div className="bg-white dark:bg-black dark:text-gray-200 rounded-lg shadow-lg max-w-lg mx-auto p-6 relative">
               <h3 className="text-2xl font-bold mb-4">Ride Details</h3>
               <div className="space-y-2">
                 <p>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { getIdToken } from "firebase/auth";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import AuthLayout from "../authlayout/authLayout";
 import { auth, database } from "@/app/methods/firbase_config";
+import { ClipLoader } from "react-spinners"; // Import the spinner
 
 const SignUp: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -17,6 +18,7 @@ const SignUp: React.FC = () => {
   const [retypePassword, setRetypePassword] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false); // Add loading state
   const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,6 +28,8 @@ const SignUp: React.FC = () => {
       setError("Passwords do not match");
       return;
     }
+
+    setLoading(true); // Set loading to true
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -48,6 +52,8 @@ const SignUp: React.FC = () => {
       router.push('/');
     } catch (error: any) {
       setError(error.message);
+    } finally {
+      setLoading(false); // Set loading to false
     }
   };
 
@@ -79,7 +85,7 @@ const SignUp: React.FC = () => {
                 <label className="block text-gray-700">Name</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border rounded"
+                  className="w-full px-3 py-2 border rounded dark:bg-black"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -89,7 +95,7 @@ const SignUp: React.FC = () => {
                 <label className="block text-gray-700">Email</label>
                 <input
                   type="email"
-                  className="w-full px-3 py-2 border rounded"
+                  className="w-full px-3 py-2 border rounded dark:bg-black"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -99,7 +105,7 @@ const SignUp: React.FC = () => {
                 <label className="block text-gray-700">Password</label>
                 <input
                   type="password"
-                  className="w-full px-3 py-2 border rounded"
+                  className="w-full dark:bg-black px-3 py-2 border rounded"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -109,7 +115,7 @@ const SignUp: React.FC = () => {
                 <label className="block text-gray-700">Retype Password</label>
                 <input
                   type="password"
-                  className="w-full px-3 py-2 border rounded"
+                  className="w-full px-3 py-2 border rounded dark:bg-black"
                   value={retypePassword}
                   onChange={(e) => setRetypePassword(e.target.value)}
                   required
@@ -119,7 +125,7 @@ const SignUp: React.FC = () => {
                 <label className="block text-gray-700">Phone Number</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border rounded"
+                  className="w-full px-3 py-2 border rounded dark:bg-black"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                   required
@@ -128,8 +134,9 @@ const SignUp: React.FC = () => {
               <button
                 type="submit"
                 className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                disabled={loading} // Disable button when loading
               >
-                Sign Up
+                {loading ? <ClipLoader size={20} color={"#ffffff"} /> : "Sign Up"} 
               </button>
             </form>
             <p className="mt-4">

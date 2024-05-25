@@ -153,7 +153,7 @@ const UserPage = () => {
               <input className="border p-2 w-full mb-4 dark:bg-black dark:text-white" type="text" name="address" value={editUser.address} onChange={handleChange} placeholder="Address" />
               <div className="flex justify-between">
                 <button onClick={handleEditSave} className="bg-green-500 text-white px-4 py-2 rounded">Save</button>
-                <button onClick={handleEditClose} className="bg-red-500 text-white px-4 py-2 rounded">Cancel</button>
+                <button onClick={handleEditClose} className="bg-red text-white px-4 py-2 rounded">Cancel</button>
               </div>
             </div>
           </div>
