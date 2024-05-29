@@ -126,7 +126,7 @@ const EarningsPage = () => {
       <div className="container mx-auto p-4 dark:bg-gray-900 dark:text-white">
         <h1 className="text-3xl font-bold mb-4">Driver Earnings</h1>
         <div className="mb-4">
-          <label className="mr-2">Enter Percentage to Deduct:</label>
+          <label className="mr-2">Enter Percentage to Deduct: from 1 to 100</label>
           <input
             type="number"
             value={percentage}
